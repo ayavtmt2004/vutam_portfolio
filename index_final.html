@@ -1,0 +1,2331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tam Vu — Finance & Data Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg:        #faf8f6;
+  --bg2:       #f2eeea;
+  --bg3:       #e8e2dc;
+  --bg4:       #ded6ce;
+  --border:    rgba(26,26,26,0.09);
+  --border2:   rgba(26,26,26,0.15);
+  --accent:    #c47a8a;
+  --accent2:   #a85c6e;
+  --accent-dim: rgba(196,122,138,0.1);
+  --accent-glow: rgba(196,122,138,0.06);
+  --text:      #1a1a1a;
+  --text-mid:  #5a5248;
+  --text-dim:  #9e9488;
+  --white:     #ffffff;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5vw; height: 64px;
+  background: rgba(250,248,246,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; letter-spacing: 0.04em;
+  color: var(--text); text-decoration: none;
+}
+.nav-logo span { color: var(--accent); }
+.nav-links { display:flex; gap:2.4rem; list-style:none; }
+.nav-links a {
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 500; color: var(--text-mid); text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent2); }
+.nav-cta {
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  font-weight: 500; color: var(--white); background: var(--accent2);
+  padding: 0.5rem 1.3rem; border-radius: 2px; text-decoration: none;
+  transition: background 0.2s;
+}
+.nav-cta:hover { background: var(--text); }
+
+/* ── HERO ── */
+#home {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 100px 5vw 80px;
+  position: relative; overflow: hidden;
+}
+.hero-bg-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(196,122,138,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196,122,138,0.08) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 40%, transparent 100%);
+}
+.hero-bg-glow {
+  position: absolute; top: 5%; left: 52%;
+  width: 680px; height: 680px; z-index: 0;
+  background: radial-gradient(circle, rgba(196,122,138,0.07) 0%, transparent 65%);
+  pointer-events: none;
+  animation: pulse 7s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:0.6; transform:scale(1); }
+  50%      { opacity:1;   transform:scale(1.05); }
+}
+
+/* hero blob shapes */
+.hero-blob {
+  position: absolute; z-index: 0; border-radius: 50%;
+  background: rgba(196,122,138,0.055);
+}
+.hero-blob-1 { width:320px; height:320px; top:-60px; right:8%; }
+.hero-blob-2 { width:180px; height:180px; bottom:18%; right:22%; }
+
+.hero-content { position: relative; z-index:1; max-width: 900px; }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent2); margin-bottom: 1.8rem; font-weight: 500;
+}
+.hero-tag::before { content:''; display:block; width:28px; height:1px; background:var(--accent2); }
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-weight: 500; line-height: 0.95;
+  color: var(--text); margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+.hero-name em { font-style: italic; color: var(--accent); }
+.hero-desc {
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  color: var(--text-mid); max-width: 520px;
+  line-height: 1.78; margin-bottom: 3rem; font-weight: 300;
+}
+.hero-actions { display:flex; gap:1.2rem; align-items:center; flex-wrap:wrap; }
+.btn-primary {
+  display: inline-flex; align-items:center; gap:0.5rem;
+  background: var(--accent2); color: var(--white);
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; text-decoration: none;
+  padding: 0.85rem 2rem; border-radius: 2px;
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-primary:hover { background: var(--text); transform: translateY(-1px); }
+.btn-ghost {
+  display: inline-flex; align-items:center; gap:0.5rem;
+  border: 1px solid rgba(196,122,138,0.45); color: var(--accent2);
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em;
+  text-transform: uppercase; text-decoration: none;
+  padding: 0.85rem 2rem; border-radius: 2px;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s, background 0.2s;
+}
+.btn-ghost:hover { border-color: var(--accent2); background: var(--accent-dim); transform: translateY(-1px); }
+
+.hero-stats {
+  position: relative; z-index:1;
+  display:flex; gap:3rem; margin-top:5rem;
+  padding-top:2.5rem; border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem; font-weight: 400; color: var(--accent); line-height:1;
+}
+.stat-label {
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-dim); margin-top: 0.3rem;
+}
+
+/* ── ABOUT ── */
+#about {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 6rem 5vw;
+  display: grid; grid-template-columns: 1fr 1.6fr; gap: 6rem;
+  align-items: center;
+}
+.section-label {
+  font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent2); display:flex; align-items:center; gap:0.6rem;
+  margin-bottom: 1.2rem;
+}
+.section-label::before { content:''; display:block; width:28px; height:1px; background:var(--accent2); }
+.about-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 500; line-height: 1.2; color: var(--text);
+}
+.about-heading em { font-style: italic; color: var(--accent); }
+.about-text {
+  font-size: 0.95rem; line-height: 1.85;
+  color: var(--text-mid); font-weight: 300; margin-bottom: 1.4rem;
+}
+.about-pills { display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:0.4rem; }
+.pill {
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid var(--border2); color: var(--text-mid);
+  padding: 0.35rem 0.9rem; border-radius: 100px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.pill:hover { border-color: var(--accent); color: var(--accent2); background: var(--accent-dim); }
+
+/* ── EXPERIENCE ── */
+#experience { padding: 7rem 5vw; background: var(--bg); }
+.section-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  font-weight: 500; color: var(--text);
+}
+.section-header { margin-bottom: 4rem; }
+
+.timeline { display:flex; flex-direction:column; max-width:860px; }
+.timeline-item {
+  display: grid; grid-template-columns: 200px 1fr;
+  padding: 2.8rem 0;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.timeline-item:last-child { border-bottom: none; }
+.timeline-item::after {
+  content:''; position:absolute; left:200px; top:0; bottom:0;
+  width:1px; background:var(--border);
+}
+.tl-meta { padding-right:2rem; }
+.tl-company {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem; font-weight: 500; color: var(--text); margin-bottom:0.3rem;
+}
+.tl-period { font-size:0.72rem; letter-spacing:0.06em; color:var(--text-dim); margin-bottom:0.15rem; }
+.tl-location { font-size:0.72rem; color:var(--text-dim); }
+.tl-type {
+  display:inline-block; margin-top:0.7rem;
+  font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase;
+  background:var(--accent-dim); color:var(--accent2);
+  padding:0.22rem 0.65rem; border-radius:100px;
+  border: 1px solid rgba(196,122,138,0.25);
+}
+.tl-content { padding-left:3rem; }
+.tl-role {
+  font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--accent2); font-weight:500; margin-bottom:0.9rem;
+}
+.tl-bullets { list-style:none; display:flex; flex-direction:column; gap:0.6rem; }
+.tl-bullets li {
+  font-size:0.88rem; line-height:1.72;
+  color:var(--text-mid); padding-left:1.3rem; position:relative; font-weight:300;
+}
+.tl-bullets li::before {
+  content:'—'; position:absolute; left:0;
+  color:var(--accent); font-size:0.7rem; top:0.28rem;
+}
+
+/* ── PROJECTS ── */
+#projects {
+  padding: 7rem 5vw;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+}
+.projects-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1px; background:var(--border);
+  border:1px solid var(--border); margin-top:3rem;
+}
+.project-card {
+  background:var(--bg2); padding:2.2rem;
+  text-decoration:none; display:flex; flex-direction:column;
+  transition: background 0.2s; cursor:pointer;
+  position:relative; overflow:hidden;
+}
+.project-card::after {
+  content:''; position:absolute; left:0; top:0;
+  width:3px; height:0; background:var(--accent);
+  transition: height 0.3s ease;
+}
+.project-card:hover { background: var(--bg3); }
+.project-card:hover::after { height:100%; }
+.project-card.featured { grid-column:span 2; }
+.project-tag {
+  font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--accent2); margin-bottom:1rem;
+}
+.project-title {
+  font-family:'Playfair Display',serif;
+  font-size:1.05rem; font-weight:500;
+  color:var(--text); line-height:1.4; flex:1; margin-bottom:0.5rem;
+}
+.project-tools { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:1rem; }
+.project-tool {
+  font-size:0.62rem; letter-spacing:0.07em;
+  border:1px solid var(--border2); color:var(--text-dim);
+  padding:0.2rem 0.55rem; border-radius:2px;
+}
+.project-arrow {
+  position:absolute; top:1.8rem; right:1.8rem;
+  font-size:1rem; color:var(--text-dim);
+  transition: color 0.2s, transform 0.2s;
+}
+.project-card:hover .project-arrow { color:var(--accent); transform:translate(2px,-2px); }
+.project-card.coming-soon { opacity:0.42; cursor:default; }
+.project-card.coming-soon:hover { background:var(--bg2); }
+.project-card.coming-soon::after { display:none; }
+
+/* ── PROJECT DETAIL ── */
+#project-sales { padding:7rem 5vw; border-top:1px solid var(--border); background:var(--bg); }
+.project-detail-header { max-width:800px; margin-bottom:4rem; }
+.project-detail-tag {
+  font-size:0.68rem; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--accent2); display:flex; align-items:center; gap:0.6rem; margin-bottom:1rem;
+}
+.project-detail-tag::before { content:''; display:block; width:28px; height:1px; background:var(--accent2); }
+.project-detail-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.8rem,3.5vw,3rem);
+  font-weight:500; color:var(--text); line-height:1.15; margin-bottom:1.2rem;
+}
+.project-detail-desc { font-size:0.95rem; color:var(--text-mid); line-height:1.8; font-weight:300; }
+
+.project-info-row {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; background:var(--border);
+  border:1px solid var(--border); margin-bottom:4rem;
+}
+.info-cell { background:var(--bg2); padding:1.5rem 2rem; }
+.info-cell-label {
+  font-size:0.62rem; letter-spacing:0.16em; text-transform:uppercase;
+  color:var(--text-dim); margin-bottom:0.5rem;
+}
+.info-cell-val { font-size:0.88rem; color:var(--text); font-weight:400; line-height:1.5; }
+
+.screenshot-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1px; background:var(--border); border:1px solid var(--border);
+}
+.ss-card { background:var(--bg); overflow:hidden; }
+.ss-card.wide { grid-column:span 2; }
+.ss-card img { width:100%; display:block; transition:transform 0.4s ease; }
+.ss-card:hover img { transform:scale(1.015); }
+.ss-caption {
+  padding:0.9rem 1.4rem;
+  font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase;
+  color:var(--text-dim); background:var(--bg2);
+  border-top:1px solid var(--border);
+}
+
+/* ── EDUCATION & SKILLS ── */
+#education {
+  padding:7rem 5vw;
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  display:grid; grid-template-columns:1fr 1fr; gap:6rem;
+}
+.edu-block h3 {
+  font-family:'Playfair Display',serif;
+  font-size:1.2rem; font-weight:500; color:var(--text); margin-bottom:0.25rem;
+}
+.school-sub { font-size:0.8rem; color:var(--text-mid); margin-bottom:0.2rem; }
+.school-meta { font-size:0.75rem; color:var(--text-dim); margin-bottom:1rem; }
+.edu-badge {
+  display:inline-block; margin:0.2rem 0.2rem 0 0;
+  font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase;
+  background:var(--accent-dim); color:var(--accent2);
+  padding:0.22rem 0.65rem; border-radius:100px;
+  border:1px solid rgba(196,122,138,0.25);
+}
+.certs-list { font-size:0.82rem; color:var(--text-mid); line-height:1.95; font-weight:300; }
+.skills-row-item { margin-bottom:2rem; }
+.skill-category {
+  font-size:0.64rem; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--accent2); margin-bottom:0.8rem;
+}
+.skills-tags { display:flex; flex-wrap:wrap; gap:0.5rem; }
+.skill-tag {
+  font-size:0.72rem; font-weight:400;
+  background:var(--bg); border:1px solid var(--border2);
+  color:var(--text-mid); padding:0.3rem 0.85rem; border-radius:2px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.skill-tag:hover { border-color:var(--accent); color:var(--accent2); background:var(--accent-dim); }
+
+/* ── FOOTER ── */
+footer {
+  border-top:1px solid var(--border);
+  padding:3rem 5vw;
+  display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:1.5rem;
+  background:var(--bg);
+}
+.footer-name {
+  font-family:'Playfair Display',serif;
+  font-size:1rem; color:var(--text); margin-bottom:0.3rem;
+}
+.footer-sub { font-size:0.72rem; color:var(--text-dim); letter-spacing:0.06em; }
+.footer-links { display:flex; gap:2rem; }
+.footer-links a {
+  font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--text-dim); text-decoration:none; transition:color 0.2s;
+}
+.footer-links a:hover { color:var(--accent2); }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity 0.75s ease,transform 0.75s ease; }
+.reveal.visible { opacity:1; transform:none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width:1000px) {
+  #about { grid-template-columns:1fr; gap:2.5rem; }
+  .projects-grid { grid-template-columns:1fr 1fr; }
+  .project-card.featured { grid-column:span 2; }
+  #education { grid-template-columns:1fr; gap:3rem; }
+  .project-info-row { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:700px) {
+  nav { padding:0 1.5rem; }
+  .nav-links { display:none; }
+  #home,#about,#experience,#projects,#project-sales,#education { padding:5rem 1.5rem; }
+  .projects-grid { grid-template-columns:1fr; }
+  .project-card.featured { grid-column:span 1; }
+  .timeline-item { grid-template-columns:1fr; gap:1rem; }
+  .timeline-item::after { display:none; }
+  .tl-content { padding-left:0; }
+  .screenshot-grid { grid-template-columns:1fr; }
+  .ss-card.wide { grid-column:span 1; }
+  .project-info-row { grid-template-columns:1fr 1fr; }
+  .hero-stats { gap:2rem; }
+  footer { flex-direction:column; align-items:flex-start; }
+}
+
+/* ── PROJECT META CARDS ── */
+.project-meta-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border); margin-bottom: 3rem;
+}
+.meta-card { background: var(--bg2); padding: 2rem 2.2rem; }
+.meta-card h4 {
+  font-size: 0.64rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent2); margin-bottom: 1rem;
+}
+.meta-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.meta-card ul li {
+  font-size: 0.87rem; line-height: 1.7;
+  color: var(--text-mid); padding-left: 1.2rem; position: relative; font-weight: 300;
+}
+.meta-card ul li::before {
+  content: '—'; position: absolute; left: 0;
+  color: var(--accent); font-size: 0.7rem; top: 0.25rem;
+}
+
+/* ── ANALYSIS BLOCKS ── */
+.analysis-block { margin-bottom: 3rem; }
+.analysis-q {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.7rem;
+  margin-bottom: 1rem; padding: 1.2rem 1.6rem;
+  background: var(--bg2); border-left: 3px solid var(--accent);
+  border-radius: 0 2px 2px 0;
+}
+.analysis-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.8rem; font-weight: 500;
+  color: var(--accent2); letter-spacing: 0.06em;
+  background: var(--accent-dim); padding: 0.15rem 0.55rem;
+  border-radius: 2px; flex-shrink: 0;
+}
+.analysis-text {
+  font-size: 0.88rem; color: var(--text); font-weight: 400; flex: 1; min-width: 200px;
+}
+.analysis-finding {
+  font-size: 0.78rem; color: var(--accent2); font-weight: 500;
+  font-style: italic; width: 100%; padding-top: 0.2rem;
+}
+
+
+/* ── PROJECT PAGE CONTENT ── */
+.page > section { max-width: 100%; }
+.project-detail-header,
+.project-info-row,
+.project-meta-grid,
+.screenshot-grid,
+.analysis-block { max-width: 1100px; margin-left: auto; margin-right: auto; }
+
+/* ── ROUTER ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── HERO PHOTO ── */
+.hero-photo {
+  position: absolute; right: 5vw; bottom: 0;
+  width: 340px; height: 420px;
+  z-index: 1;
+}
+.hero-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: top;
+  border-radius: 4px 4px 0 0;
+  filter: grayscale(8%);
+}
+.hero-photo::before {
+  content: '';
+  position: absolute; top: 12px; left: 12px; right: -12px; bottom: -0px;
+  background: var(--accent-dim);
+  border-radius: 4px; z-index: -1;
+  border: 1px solid rgba(196,122,138,0.25);
+}
+@media (max-width: 1000px) { .hero-photo { display: none; } }
+
+/* ── BACK BUTTON ── */
+.back-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 500; color: var(--accent2); text-decoration: none;
+  padding: 0.7rem 1.5rem 0.7rem 1.2rem;
+  border: 1px solid rgba(196,122,138,0.35);
+  border-radius: 2px; cursor: pointer; background: transparent;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.back-btn:hover { background: var(--accent-dim); border-color: var(--accent2); }
+.back-bar {
+  position: sticky; top: 64px; z-index: 100;
+  background: rgba(250,248,246,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 5vw;
+  display: flex; align-items: center; gap: 1rem;
+}
+.back-bar-title {
+  font-size: 0.8rem; color: var(--text-mid);
+  font-weight: 400; letter-spacing: 0.04em;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo" onclick="showPage('main'); return false;">Tam <span>Vu</span></a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('main'); scrollToSection('about'); return false;">About</a></li>
+    <li><a href="#" onclick="showPage('main'); scrollToSection('education'); return false;">Skills</a></li>
+    <li><a href="#" onclick="showPage('main'); scrollToSection('experience'); return false;">Experience</a></li>
+    <li><a href="#" onclick="showPage('projects-list'); return false;">Projects</a></li>
+  </ul>
+  <a href="mailto:ayavtmt2004@gmail.com" class="nav-cta">Get in Touch</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: MAIN (Home + About + Education + Experience)
+═══════════════════════════════════════════ -->
+<div id="page-main" class="page active">
+
+  <section id="home"><div class="hero-bg-grid"></div>
+  <div class="hero-bg-glow"></div>
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Finance &amp; Data Analytics</div>
+    <h1 class="hero-name">Tam<br><em>Vu</em></h1>
+    <p class="hero-desc">
+      Senior at Northeastern University studying Business Administration with a concentration in Finance and Data Science. I turn complex financial data into clear decisions — through dashboards, models, and analysis that actually matter.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">View Projects →</a>
+      <a href="#experience" class="btn-ghost">My Experience</a>
+    </div>
+  </div>
+  <div class="hero-photo">
+    <img src="image001.jpg" alt="Tam Vu">
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">3.9</div>
+      <div class="stat-label">GPA · Dean's List</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3×</div>
+      <div class="stat-label">Finance Internships</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">9+</div>
+      <div class="stat-label">Analytics Projects</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">May '27</div>
+      <div class="stat-label">Expected Graduation</div>
+    </div>
+  </div></section>
+
+  <section id="about"><div class="reveal">
+    <div class="section-label">About Me</div>
+    <h2 class="about-heading">Data-driven analyst<br>with a <em>finance-first</em> lens</h2>
+  </div>
+  <div class="reveal">
+    <p class="about-text">I'm a senior at Northeastern University's D'Amore-McKim School of Business, majoring in Business Administration and Data Science. My work spans equity research, credit underwriting, fixed income markets, and quantitative analytics — always at the intersection of finance and technology.</p>
+    <p class="about-text">I've worked across Vietnam, New York, and Boston, building models in Excel, dashboards in Power BI, and pipelines in Python and SQL. I'm passionate about Emerging Markets, FX dynamics, and using data to surface insights that move decisions forward.</p>
+    <div class="about-pills">
+      <span class="pill">Power BI</span><span class="pill">SQL</span><span class="pill">Python</span>
+      <span class="pill">Excel / Power Query</span><span class="pill">DCF Modeling</span>
+      <span class="pill">FX Analysis</span><span class="pill">Fixed Income</span>
+      <span class="pill">Data Visualization</span><span class="pill">Bloomberg Terminal</span>
+    </div>
+  </div></section>
+
+  <section id="education"><div class="reveal">
+    <div class="section-label" style="margin-bottom:1.6rem;">Education</div>
+    <div class="edu-block">
+      <h3>Northeastern University</h3>
+      <div class="school-sub">D'Amore-McKim School of Business · Boston, MA</div>
+      <div class="school-meta">BS Business Administration &amp; Data Science · May 2027 · GPA 3.9</div>
+      <div>
+        <span class="edu-badge">Dean's List 2022–2025</span>
+        <span class="edu-badge">Finance Concentration</span>
+      </div>
+      <div style="height:1.8rem;"></div>
+      <div class="section-label" style="margin-bottom:0.9rem;">Certifications</div>
+      <div class="certs-list">
+        Bloomberg BMC &amp; ESG<br>
+        JP Morgan Chase IB Virtual Experience Program (Forage)<br>
+        AFA Methods of Detecting Financial Reporting Fraud<br>
+        College Reading &amp; Learning Association Certification
+      </div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="section-label" style="margin-bottom:1.6rem;">Skills</div>
+    <div>
+      <div class="skills-row-item">
+        <div class="skill-category">Analytics &amp; Data</div>
+        <div class="skills-tags">
+          <span class="skill-tag">Power BI</span><span class="skill-tag">SQL</span>
+          <span class="skill-tag">Python</span><span class="skill-tag">Excel / Power Query</span>
+          <span class="skill-tag">PivotTables</span><span class="skill-tag">NetSuite</span>
+        </div>
+      </div>
+      <div class="skills-row-item">
+        <div class="skill-category">Finance</div>
+        <div class="skills-tags">
+          <span class="skill-tag">DCF Modeling</span><span class="skill-tag">Fixed Income</span>
+          <span class="skill-tag">FX Hedging</span><span class="skill-tag">Credit Underwriting</span>
+          <span class="skill-tag">Bloomberg Terminal</span><span class="skill-tag">Portfolio Management</span>
+        </div>
+      </div>
+      <div class="skills-row-item">
+        <div class="skill-category">Languages &amp; Interests</div>
+        <div class="skills-tags">
+          <span class="skill-tag">Vietnamese (Native)</span><span class="skill-tag">Mandarin</span>
+          <span class="skill-tag">English</span><span class="skill-tag">Emerging Markets</span>
+          <span class="skill-tag">Flute &amp; Piano</span><span class="skill-tag">Volleyball</span>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
+  <section id="experience"><div class="section-header reveal">
+    <div class="section-label">Career</div>
+    <h2 class="section-heading">Relevant Experience</h2>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item reveal">
+      <div class="tl-meta">
+        <div class="tl-company">BIDV</div>
+        <div class="tl-period">May 2025 – Aug 2025</div>
+        <div class="tl-location">Ho Chi Minh City, VN</div>
+        <div class="tl-type">Private Credit</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-role">Private Credit Intern</div>
+        <ul class="tl-bullets">
+          <li>Supported credit underwriting and collateral (real estate) review for bank loans and secured lending for high-net-worth clients</li>
+          <li>Advised clients on FX hedging strategies to preserve asset value amid currency volatility</li>
+          <li>Tracked mutual fund performance and supported portfolio adjustments aligned with client risk tolerance through Excel-based modeling</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="tl-meta">
+        <div class="tl-company">Loop Capital</div>
+        <div class="tl-period">Jan 2024 – Jun 2024</div>
+        <div class="tl-location">New York City, NY</div>
+        <div class="tl-type">Finance &amp; Operations</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-role">Finance &amp; Operations Co-op</div>
+        <ul class="tl-bullets">
+          <li>Projected and streamlined monthly expense accruals for IB &amp; Asset Management entities using Excel Pivot Tables, improving financial planning visibility by 10%</li>
+          <li>Analyzed revenue data for 200+ employees, supporting performance evaluation and operational efficiency</li>
+          <li>Maintained municipal bond watchlists in Fixed Income markets, tracking yield movements, spread changes, and macro drivers</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="tl-meta">
+        <div class="tl-company">MBS</div>
+        <div class="tl-period">May 2023 – Aug 2023</div>
+        <div class="tl-location">Ho Chi Minh City, VN</div>
+        <div class="tl-type">Brokerage</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-role">Stock Brokerage Intern</div>
+        <ul class="tl-bullets">
+          <li>Delivered investment recommendation with 30% upside in 6 months using a self-built DCF model in Excel</li>
+          <li>Managed a diversified portfolio (equities, funds, bonds) with risk analysis and Emerging Markets sector research</li>
+          <li>Applied M-score model to detect earnings manipulation and identify red flags in financial statements</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="tl-meta">
+        <div class="tl-company">Northeastern University</div>
+        <div class="tl-period">Jan 2023 – Present</div>
+        <div class="tl-location">Boston, MA</div>
+        <div class="tl-type">Teaching</div>
+      </div>
+      <div class="tl-content">
+        <div class="tl-role">Teacher Assistant &amp; Peer Tutor</div>
+        <ul class="tl-bullets">
+          <li>Tutored students in Financial Accounting and Business Statistics; achieved A- or higher for all tutees</li>
+          <li>Served as liaison to foster experiential learning and community support across Boston</li>
+        </ul>
+      </div>
+    </div>
+
+  </div></section>
+
+  <!-- mini projects teaser -->
+  <div style="padding:4rem 5vw; background:var(--bg2); border-top:1px solid var(--border); text-align:center;">
+    <div class="section-label" style="justify-content:center; margin-bottom:0.8rem;">Work</div>
+    <h2 class="section-heading" style="margin-bottom:1.5rem;">Projects &amp; Analysis</h2>
+    <p style="font-size:0.95rem; color:var(--text-mid); margin-bottom:2rem; font-weight:300;">9 projects across data analytics, financial modeling, and strategy consulting.</p>
+    <a href="#" onclick="showPage('projects-list'); window.scrollTo(0,0); return false;" class="btn-primary">View All Projects →</a>
+  </div>
+
+  <footer>
+    <div>
+      <div class="footer-name">Tam Vu</div>
+      <div class="footer-sub">Finance &amp; Data Analytics · Boston, MA</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:ayavtmt2004@gmail.com">Email</a>
+      <a href="www.linkedin.com/in/tam-vu-487a731b0">LinkedIn</a>
+      <a href="#">Resume PDF</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: PROJECTS LIST
+═══════════════════════════════════════════ -->
+<div id="page-projects-list" class="page">
+  <div style="padding: 100px 5vw 6rem; min-height:100vh; background:var(--bg);">
+    <div style="margin-bottom:3.5rem;">
+      <h1 class="section-heading" style="font-size:clamp(2rem,4vw,3.2rem); margin-bottom:1rem;">Projects &amp; Analysis</h1>
+      <p style="font-size:0.95rem; color:var(--text-mid); font-weight:300; max-width:520px;">Click any project to explore the full analysis, methodology, and findings.</p>
+    </div>
+  <div class="projects-grid">
+
+    <a href="#" onclick="showProject('project-sales'); return false;" class="project-card reveal">
+      <span class="project-tag">Excel · Power BI · Power Query</span>
+      <div class="project-title">Sales Revenue &amp; Performance Analysis — KPIM Mart Supermarket Chain</div>
+      <div class="project-tools">
+        <span class="project-tool">PivotTables</span>
+        <span class="project-tool">Conditional Formatting</span>
+        <span class="project-tool">YoY Analysis</span>
+        <span class="project-tool">RFM Segmentation</span>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+
+    <a href="#" onclick="showProject('project-inflation'); return false;" class="project-card reveal">
+      <span class="project-tag">Python · ML · Statistics</span>
+      <div class="project-title">Perceived vs Actual Inflation &amp; Household Spending</div>
+      <div class="project-tools">
+        <span class="project-tool">Linear Regression</span>
+        <span class="project-tool">Correlation Analysis</span>
+        <span class="project-tool">PCE · SCE</span>
+        <span class="project-tool">Post-COVID</span>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+    <a href="#" onclick="showProject('project-christmas'); return false;" class="project-card reveal">
+      <span class="project-tag">SQL · Data Analysis</span>
+      <div class="project-title">Christmas Sales over Europe — Countries &amp; Cities Analysis</div>
+      <div class="project-tools">
+        <span class="project-tool">CTEs</span>
+        <span class="project-tool">Subqueries</span>
+        <span class="project-tool">Regional Analysis</span>
+        <span class="project-tool">Behavioural Segmentation</span>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+    <a href="#" onclick="showProject('project-cbs'); return false;" class="project-card reveal">
+      <span class="project-tag">Case Competition · Strategy &amp; Finance</span>
+      <div class="project-title">CBS Case Competition: European Energy — Global BESS Strategy</div>
+      <div class="project-tools">
+        <span class="project-tool">DCF &amp; IRR Modeling</span>
+        <span class="project-tool">Market Entry</span>
+        <span class="project-tool">SWOT Analysis</span>
+        <span class="project-tool">Risk Matrix</span>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+    <a href="#" onclick="showProject('project-rfm'); return false;" class="project-card reveal">
+      <span class="project-tag">SQL · Power BI</span>
+      <div class="project-title">Supermarket Customer Purchasing Behaviour Analysis</div>
+      <div class="project-tools">
+        <span class="project-tool">RFM Model</span>
+        <span class="project-tool">Segmentation</span>
+        <span class="project-tool">Drill-through</span>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+    <a href="#" onclick="showProject('project-stock'); return false;" class="project-card reveal">
+      <span class="project-tag">Finance · Portfolio Management</span>
+      <div class="project-title">Stock Portfolio Report — Long-Term Capital Appreciation</div>
+      <div class="project-tools">
+        <span class="project-tool">ETFs &amp; Equities</span>
+        <span class="project-tool">Attribution Analysis</span>
+        <span class="project-tool">Sharpe · Beta · Alpha</span>
+        <span class="project-tool">S&amp;P 500 Benchmark</span>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+    <a href="#" onclick="showProject('project-ford'); return false;" class="project-card reveal">
+      <span class="project-tag">Finance · Excel · Ratio Analysis</span>
+      <div class="project-title">Ford's Financial Statement Analysis Report</div>
+      <div class="project-tools">
+        <span class="project-tool">Liquidity</span>
+        <span class="project-tool">Debt Analysis</span>
+        <span class="project-tool">Profitability</span>
+        <span class="project-tool">DuPont</span>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+    <a href="#" onclick="showProject('project-fxcny'); return false;" class="project-card reveal">
+      <span class="project-tag">Python · FX Research · Macroeconomics</span>
+      <div class="project-title">USD/CNY FX Rate vs China's Exports to US</div>
+      <div class="project-tools">
+        <span class="project-tool">Interactive Dashboard</span>
+        <span class="project-tool">Fed Funds Rate</span>
+        <span class="project-tool">Trade Flow Analysis</span>
+        <span class="project-tool">China Export Structure</span>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+    <a href="#" onclick="showProject('project-restaurant'); return false;" class="project-card reveal">
+      <span class="project-tag">Python · Statistics</span>
+      <div class="project-title">Restaurant Best Food Award &amp; Attraction Analysis</div>
+      <div class="project-tools">
+        <span class="project-tool">Correlation Analysis</span>
+        <span class="project-tool">Distribution</span>
+        <span class="project-tool">State-level Analysis</span>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+
+  </div>
+  </div>
+  <footer>
+    <div>
+      <div class="footer-name">Tam Vu</div>
+      <div class="footer-sub">Finance &amp; Data Analytics · Boston, MA</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:ayavtmt2004@gmail.com">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Resume PDF</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: project-sales
+═══════════════════════════════════════════ -->
+<div id="page-project-sales" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Projects</button>
+    <span class="back-bar-title">Sales Revenue &amp; Performance Analysis</span>
+  </div>
+  <section id="project-sales" style="padding:4rem 5vw 3rem;">
+<div class="project-detail-header reveal">
+    <div class="project-detail-tag">Featured Project</div>
+    <h2 class="project-detail-title">Sales Performance Dashboard:<br>Analyzing Supermarket Revenue &amp; Performance</h2>
+    <p class="project-detail-desc">Built a multi-sheet Excel reporting system for KPIM Mart, a supermarket chain across 27 Hanoi locations. The dashboard enables management to compare store-level and district-level performance across 2020–2022, drilling into monthly trends, manager benchmarks, and customer tier contribution.</p>
+  </div>
+
+  <div class="project-info-row reveal">
+    <div class="info-cell">
+      <div class="info-cell-label">Tools</div>
+      <div class="info-cell-val">Excel, Power Query, Power BI</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Methods</div>
+      <div class="info-cell-val">PivotTables, Conditional Formatting, Slicers, SUMIFS</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Scope</div>
+      <div class="info-cell-val">27 stores · 3 years · 6 districts</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Goal</div>
+      <div class="info-cell-val">Identify revenue trends &amp; underperforming stores</div>
+    </div>
+  </div>
+
+  <div class="screenshot-grid reveal">
+    <div class="ss-card wide">
+      <img src="image188.png" alt="Overview Dashboard">
+      <div class="ss-caption">Overview Dashboard — Revenue by Manager, District &amp; Product Category</div>
+    </div>
+    <div class="ss-card">
+      <img src="image184.png" alt="Detailed Analysis">
+      <div class="ss-caption">Detailed Analysis — YoY Growth by Store &amp; Month</div>
+    </div>
+    <div class="ss-card">
+      <img src="image186.png" alt="Monthly Calculations">
+      <div class="ss-caption">Monthly Calculation Sheet — MoM &amp; YoY Comparison</div>
+    </div>
+    <div class="ss-card wide">
+      <img src="image182.png" alt="Pivot Table">
+      <div class="ss-caption">Pivot Table Summary — Total Revenue by Store (2020–2022)</div>
+    </div>
+  </div>
+  </section>
+  <div style="padding:3rem 5vw; border-top:1px solid var(--border); display:flex; gap:1rem; flex-wrap:wrap; background:var(--bg2);">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Back to Projects</button>
+  </div>
+  <footer>
+    <div>
+      <div class="footer-name">Tam Vu</div>
+      <div class="footer-sub">Finance &amp; Data Analytics · Boston, MA</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:ayavtmt2004@gmail.com">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Resume PDF</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: project-rfm
+═══════════════════════════════════════════ -->
+<div id="page-project-rfm" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Projects</button>
+    <span class="back-bar-title">Customer Purchasing Behaviour Analysis</span>
+  </div>
+  <section id="project-rfm" style="padding:4rem 5vw 3rem;">
+<div class="project-detail-header reveal">
+    <div class="project-detail-tag">Project</div>
+    <h2 class="project-detail-title">Supermarket Customer Purchasing<br>Behaviour Analysis</h2>
+    <p class="project-detail-desc">Applied the RFM (Recency, Frequency, Monetary) model to a dataset of 35,152 customers to segment purchasing behaviour and surface actionable insights for retention and growth. Built an interactive Power BI dashboard with drill-through, page tooltips, and multi-dimensional filtering.</p>
+  </div>
+
+  <div class="project-info-row reveal">
+    <div class="info-cell">
+      <div class="info-cell-label">Tools</div>
+      <div class="info-cell-val">SQL, Power BI</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Dataset</div>
+      <div class="info-cell-val">35,152 customer rows</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Method</div>
+      <div class="info-cell-val">RFM Segmentation — Recency, Frequency, Monetary</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Goal</div>
+      <div class="info-cell-val">Retention insights &amp; growth opportunities</div>
+    </div>
+  </div>
+
+  <div class="project-meta-grid reveal">
+    <div class="meta-card">
+      <h4>Objectives</h4>
+      <ul>
+        <li>Apply RFM model to classify customers by purchasing behaviour</li>
+        <li>Understand recency, frequency, and monetary patterns across segments</li>
+        <li>Provide actionable recommendations for retention and growth</li>
+      </ul>
+    </div>
+    <div class="meta-card">
+      <h4>Recommendations</h4>
+      <ul>
+        <li>Target New High Spending customers with exclusive offers, especially during holidays</li>
+        <li>Re-engage lapsed customers using promotions — holiday periods drive bulk purchases</li>
+        <li>Optimize discount strategy to improve margins</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div class="project-detail-tag reveal" style="margin-bottom:1.5rem;">SQL Code</div>
+    <div class="screenshot-grid reveal">
+      <div class="ss-card">
+        <img src="image034.png" alt="Recency SQL">
+        <div class="ss-caption">Step 1 — Recency: Most recent purchase date per customer</div>
+      </div>
+      <div class="ss-card">
+        <img src="image032.png" alt="Frequency SQL">
+        <div class="ss-caption">Step 2 — Frequency: Number of orders per customer</div>
+      </div>
+      <div class="ss-card wide">
+        <img src="image030.png" alt="Monetary SQL">
+        <div class="ss-caption">Step 3 — Monetary: Total spend, discount, and product count per customer</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div class="project-detail-tag reveal" style="margin-bottom:1.5rem;">Power BI Dashboards</div>
+    <div class="screenshot-grid reveal">
+      <div class="ss-card wide">
+        <img src="image036.png" alt="RFM Dashboard">
+        <div class="ss-caption">RFM Report — Customer segments, recency/frequency/monetary scores</div>
+      </div>
+      <div class="ss-card wide">
+        <img src="image038.png" alt="Revenue Dashboard">
+        <div class="ss-caption">Revenue Report — Monthly trends, product category &amp; store breakdown</div>
+      </div>
+      <div class="ss-card wide">
+        <img src="image039.jpg" alt="Page Tooltips & Drill-through">
+        <div class="ss-caption">Advanced features — Page tooltips &amp; drill-through by store, brand, membership tier</div>
+      </div>
+    </div>
+  </div>
+  </section>
+  <div style="padding:3rem 5vw; border-top:1px solid var(--border); display:flex; gap:1rem; flex-wrap:wrap; background:var(--bg2);">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Back to Projects</button>
+  </div>
+  <footer>
+    <div>
+      <div class="footer-name">Tam Vu</div>
+      <div class="footer-sub">Finance &amp; Data Analytics · Boston, MA</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:ayavtmt2004@gmail.com">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Resume PDF</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: project-christmas
+═══════════════════════════════════════════ -->
+<div id="page-project-christmas" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Projects</button>
+    <span class="back-bar-title">Christmas Sales — Europe Analysis</span>
+  </div>
+  <section id="project-christmas" style="padding:4rem 5vw 3rem;">
+<div class="project-detail-header reveal">
+    <div class="project-detail-tag">Project</div>
+    <h2 class="project-detail-title">Christmas Sales over Europe<br>Countries &amp; Cities Analysis</h2>
+    <p class="project-detail-desc">Analyzed multi-year Christmas sales data from a European supermarket chain to uncover key behavioral and regional drivers of seasonal revenue growth. Used SQL (CTEs, subqueries) to answer 10 business questions across channel, geography, demographics, and product category.</p>
+  </div>
+
+  <div class="project-info-row reveal">
+    <div class="info-cell">
+      <div class="info-cell-label">Tools</div>
+      <div class="info-cell-val">SQL — CTEs, Subqueries, Window Functions</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Scope</div>
+      <div class="info-cell-val">4 Christmas seasons · 10 countries · multi-city</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Dimensions</div>
+      <div class="info-cell-val">Country, channel, product category, age, gender</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Goal</div>
+      <div class="info-cell-val">Actionable strategies for marketing, pricing &amp; channel optimization</div>
+    </div>
+  </div>
+
+  <div class="project-meta-grid reveal">
+    <div class="meta-card">
+      <h4>Objectives</h4>
+      <ul>
+        <li>Analyze multi-year Christmas sales to uncover behavioral and regional revenue drivers</li>
+        <li>Identify patterns by country, channel, product category, and customer segment</li>
+        <li>Translate findings into actionable strategies for marketing, pricing, and channel optimization</li>
+      </ul>
+    </div>
+    <div class="meta-card">
+      <h4>Key Findings &amp; Recommendations</h4>
+      <ul>
+        <li>Expand digital and seasonal channels to target older demographics shifting away from in-store</li>
+        <li>Optimize in-store displays and staffing during afternoon peaks (3 PM busiest hour)</li>
+        <li>Promote products to female shoppers earlier in the week — highest activity on Mondays</li>
+        <li>Prioritize high-margin categories such as toys and building sets in high-growth markets</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div class="project-detail-tag reveal" style="margin-bottom:0.5rem;">Analysis Results</div>
+    <p class="project-detail-desc reveal" style="margin-bottom:2rem;">10 business questions answered across revenue trends, geography, customer behaviour, and product performance.</p>
+
+    <!-- Q1: Seasonal Revenue -->
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Q1</span>
+        <span class="analysis-text">Revenue, quantity, cost and profit by Christmas season (excluding 2017–2018 due to incomplete data)</span>
+        <span class="analysis-finding">→ Revenue stable ~$7M/season; 2019–2020 peaked at $7.18M; profit margin consistent ~77%</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image096.png" alt="Q1 seasonal SQL">
+          <div class="ss-caption">SQL — Seasonal view using CASE WHEN to define xmas_year &amp; season; exclude incomplete 2017–2018</div>
+        </div>
+        <div class="ss-card">
+          <img src="image098.png" alt="Q1 seasonal results">
+          <div class="ss-caption">Results — Revenue, quantity, cost &amp; profit per Christmas season (2018–2021)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2: YoY Growth -->
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Q2</span>
+        <span class="analysis-text">YoY percentage growth in revenue, quantity sold, and profit for the most recent season vs previous year</span>
+        <span class="analysis-finding">→ 2021–2022: revenue +1.9%, quantity flat, profit +1.9% vs prior season; 2020–2021 saw a dip of −3.2%</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image094.png" alt="Q2 YoY growth SQL">
+          <div class="ss-caption">SQL — Multi-CTE approach: date_sales view → seasonal aggregates → self-join for YoY growth</div>
+        </div>
+        <div class="ss-card">
+          <img src="image092.png" alt="Q2 YoY growth results">
+          <div class="ss-caption">Results — YoY growth rates for revenue, quantity &amp; profit across all seasons</div>
+        </div>
+      </div>
+      <div class="screenshot-grid" style="margin-top:1px;">
+        <div class="ss-card wide">
+          <img src="image090.png" alt="Q2 most recent season detail">
+          <div class="ss-caption">Most recent season (2021–2022) — full row: sales growth +1.9%, quantity stable, profit +1.9%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3: Seasonal Growth Rate -->
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Q3</span>
+        <span class="analysis-text">Percentage growth in revenue across all Christmas seasons (simple YoY trend)</span>
+        <span class="analysis-finding">→ 2019–2020 grew +1.5%; 2020–2021 contracted −3.2%; 2021–2022 recovered +1.9%</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image084.png" alt="Q3 growth SQL">
+          <div class="ss-caption">SQL — Self-join on xmas_year to calculate growth_yoy across all seasons</div>
+        </div>
+        <div class="ss-card">
+          <img src="image086.png" alt="Q3 growth results">
+          <div class="ss-caption">Results — Season-over-season revenue growth rate (2019 to 2021)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4: Purchase Channel -->
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Q4</span>
+        <span class="analysis-text">Revenue share by purchase channel (Online, In-store, Xmas Market) per season</span>
+        <span class="analysis-finding">→ In-store dominates ~64–67% of revenue every year; online and Xmas Market split the remainder evenly</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image080.png" alt="Q4 channel SQL">
+          <div class="ss-caption">SQL — Double CTE joining season totals with channel breakdown to compute sales_ratio</div>
+        </div>
+        <div class="ss-card">
+          <img src="image082.png" alt="Q4 channel results">
+          <div class="ss-caption">Results — In-store 64–67% each season; Online and Xmas Market ~18% each</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5: Country & City -->
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Q5</span>
+        <span class="analysis-text">Revenue by country and city, sorted descending</span>
+        <span class="analysis-finding">→ Sweden leads ($3.82M), followed by Netherlands and Germany; Berlin is top city</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image074.png" alt="Q5 country city SQL">
+          <div class="ss-caption">SQL — Revenue by country and by city, descending order</div>
+        </div>
+        <div class="ss-card">
+          <img src="image076.png" alt="Q5 country city results">
+          <div class="ss-caption">Results — Sweden leads by country; Berlin leads by city</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q6: Country Sales Growth -->
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Q6</span>
+        <span class="analysis-text">Rank countries by revenue growth rate in the most recent Christmas season (2021–2022)</span>
+        <span class="analysis-finding">→ Austria and United Kingdom tied for highest growth (+12%); Sweden declined the most (−6%) despite leading in total revenue</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image070.png" alt="Q6 country growth SQL">
+          <div class="ss-caption">SQL — YoY sales growth by country using self-join on xmas_year</div>
+        </div>
+        <div class="ss-card">
+          <img src="image072.png" alt="Q6 country growth results">
+          <div class="ss-caption">Results — Austria &amp; UK highest growth; Sweden &amp; France declined</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q7: Demographics -->
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Q7</span>
+        <span class="analysis-text">Revenue share by age group, gender, and purchase method</span>
+        <span class="analysis-finding">→ Age 1–11 has highest share (38.9%); Female slightly outspends Male (50.6% vs 49.4%); In-store = 64.7%</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image068.png" alt="Q7 demographics SQL">
+          <div class="ss-caption">SQL — Revenue share by age group, gender, and purchase method</div>
+        </div>
+        <div class="ss-card">
+          <img src="image066.png" alt="Q7 demographics results">
+          <div class="ss-caption">Results — Age 1–11 leads (38.9%); Female 50.6%; In-store 64.7%</div>
+        </div>
+      </div>
+      <div class="screenshot-grid" style="margin-top:1px;">
+        <div class="ss-card">
+          <img src="image056.png" alt="Q7 payment method SQL">
+          <div class="ss-caption">SQL — Revenue proportion by age group &amp; payment method</div>
+        </div>
+        <div class="ss-card">
+          <img src="image058.png" alt="Q7 payment method results">
+          <div class="ss-caption">Results — Age 1–11: Cash dominates; 12+ prefer Credit Card &amp; PayPal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q8: Age x Channel -->
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Q8</span>
+        <span class="analysis-text">Purchase channel mix within each age group</span>
+        <span class="analysis-finding">→ In-store still dominates all ages, but online &amp; Xmas Market share rises as age group increases</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image064.png" alt="Q8 channel mix SQL">
+          <div class="ss-caption">SQL — Revenue share by purchase channel within each age group</div>
+        </div>
+        <div class="ss-card">
+          <img src="image062.png" alt="Q8 channel mix results">
+          <div class="ss-caption">Results — In-store share drops from 74.4% (age 1–11) to 58.3% (18+)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q9: Product Category -->
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Q9</span>
+        <span class="analysis-text">Sales, profit ratio, and avg unit price by product category</span>
+        <span class="analysis-finding">→ Toys: highest sales ($4.46M) &amp; profit; Building Sets: highest profit ratio despite only 5th in sales</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image054.png" alt="Product category SQL">
+          <div class="ss-caption">SQL — Sales, profit ratio &amp; avg unit price by product category</div>
+        </div>
+        <div class="ss-card">
+          <img src="image052.png" alt="Product category results">
+          <div class="ss-caption">Results — Revenue and profit by product category</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10: Day & Time -->
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Q10</span>
+        <span class="analysis-text">Shopping patterns by day of week (gender) and time of day</span>
+        <span class="analysis-finding">→ Female shoppers peak on Monday; peak hour is 3 PM (15:00) across all customers</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image048.png" alt="Day and time SQL">
+          <div class="ss-caption">SQL — Orders by gender &amp; weekday, and by hour of day</div>
+        </div>
+      </div>
+      <div class="screenshot-grid" style="margin-top:1px;">
+        <div class="ss-card">
+          <img src="image050.png" alt="Gender weekday results">
+          <div class="ss-caption">Results — Orders by gender &amp; weekday (Female peaks Monday)</div>
+        </div>
+        <div class="ss-card">
+          <img src="image046.png" alt="Hour results">
+          <div class="ss-caption">Results — Orders by hour of day (peak at 15:00 / 3 PM)</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </section>
+  <div style="padding:3rem 5vw; border-top:1px solid var(--border); display:flex; gap:1rem; flex-wrap:wrap; background:var(--bg2);">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Back to Projects</button>
+  </div>
+  <footer>
+    <div>
+      <div class="footer-name">Tam Vu</div>
+      <div class="footer-sub">Finance &amp; Data Analytics · Boston, MA</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:ayavtmt2004@gmail.com">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Resume PDF</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: project-restaurant
+═══════════════════════════════════════════ -->
+<div id="page-project-restaurant" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Projects</button>
+    <span class="back-bar-title">Restaurant Best Food Award Analysis</span>
+  </div>
+  <section id="project-restaurant" style="padding:4rem 5vw 3rem;">
+<div class="project-detail-header reveal">
+    <div class="project-detail-tag">Project</div>
+    <h2 class="project-detail-title">Restaurant Best Food Award<br>&amp; Attraction Analysis</h2>
+    <p class="project-detail-desc">Investigated whether number of reviews correlates with higher food ratings or receiving Best Food Awards across US states, using Python statistical analysis. Examined how this relationship varies by geography and what it means for restaurants and consumers.</p>
+  </div>
+
+  <div class="project-info-row reveal">
+    <div class="info-cell">
+      <div class="info-cell-label">Tools</div>
+      <div class="info-cell-val">Python, Statistics</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Methods</div>
+      <div class="info-cell-val">Correlation analysis, distribution skewness, state-level aggregation</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Scope</div>
+      <div class="info-cell-val">50 US states · restaurant-level data</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Research Question</div>
+      <div class="info-cell-val">Do more reviews = higher ratings or Best Food Awards?</div>
+    </div>
+  </div>
+
+  <div class="project-meta-grid reveal">
+    <div class="meta-card">
+      <h4>Confounding Factors Considered</h4>
+      <ul>
+        <li>Population size directly impacts restaurant foot traffic and review volume — higher-population states naturally accumulate more reviews</li>
+        <li>State-level competition density affects how review counts distribute across restaurants</li>
+        <li>These factors can inflate averages and obscure the true reviews-to-quality relationship</li>
+      </ul>
+    </div>
+    <div class="meta-card">
+      <h4>Conclusions &amp; Implications</h4>
+      <ul>
+        <li>Weak correlation: more reviews does not reliably predict higher food ratings</li>
+        <li>Weak correlation between review volume and receiving a Best Food Award</li>
+        <li>Restaurants should prioritize quality and experience over chasing review counts</li>
+        <li>Consumers should weight rating consistency and award status over raw review numbers</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div class="project-detail-tag reveal" style="margin-bottom:1.5rem;">Analysis &amp; Findings</div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Finding 1</span>
+        <span class="analysis-text">Reviews vs Food Ratings — scatter plot by state with best-fit line</span>
+        <span class="analysis-finding">→ Weak positive correlation (slope = 0.00018); states with fewer reviews can still maintain high avg ratings</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image044.png" alt="Reviews vs Ratings scatter">
+          <div class="ss-caption">State-wise average reviews vs average food rating — weak positive correlation</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Finding 2</span>
+        <span class="analysis-text">Awards vs Reviews — average and median review counts for Best Food Award vs No Award restaurants</span>
+        <span class="analysis-finding">→ Averages nearly equal (155.9 vs 153.3), but median shows a clearer gap: Award restaurants have higher median (104 vs 82)</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image042.png" alt="Awards vs Reviews bar chart">
+          <div class="ss-caption">Average &amp; median review counts: Best Food Award vs No Award restaurants</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Finding 3</span>
+        <span class="analysis-text">Review distribution histograms — Best Food Award vs No Award restaurants</span>
+        <span class="analysis-finding">→ No-Award group is far more right-skewed (skewness 10.26 vs 3.19), indicating outliers inflate the average</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image040.png" alt="Distribution histograms">
+          <div class="ss-caption">Review distribution: Best Food Award (left, skew 3.19) vs No Award (right, skew 10.26)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Finding 4</span>
+        <span class="analysis-text">State-level correlation between reviews and Best Food Award — top positive and negative states</span>
+        <span class="analysis-finding">→ KY leads positive correlation (0.38); WV shows strongest negative (−0.24); relationship varies significantly by state</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-placeholder">Correlation table by state — image not available</div>
+      </div>
+    </div>
+
+  </div>
+  </section>
+  <div style="padding:3rem 5vw; border-top:1px solid var(--border); display:flex; gap:1rem; flex-wrap:wrap; background:var(--bg2);">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Back to Projects</button>
+  </div>
+  <footer>
+    <div>
+      <div class="footer-name">Tam Vu</div>
+      <div class="footer-sub">Finance &amp; Data Analytics · Boston, MA</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:ayavtmt2004@gmail.com">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Resume PDF</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: project-ford
+═══════════════════════════════════════════ -->
+<div id="page-project-ford" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Projects</button>
+    <span class="back-bar-title">Ford Financial Statement Analysis</span>
+  </div>
+  <section id="project-ford" style="padding:4rem 5vw 3rem;">
+<div class="project-detail-header reveal">
+    <div class="project-detail-tag">Project · Leader &amp; Quantitative Analyst</div>
+    <h2 class="project-detail-title">Ford Motor Company<br>Financial Statement Analysis</h2>
+    <p class="project-detail-desc">Conducted a comprehensive 10-year financial ratio analysis (2013–2022) of Ford Motor Company, benchmarked against General Motors (traditional competitor) and Tesla (innovative disruptor). Covered liquidity, activity, debt, profitability, market ratios, and DuPont decomposition to assess Ford's financial health, strengths, and weaknesses.</p>
+  </div>
+
+  <div class="project-info-row reveal">
+    <div class="info-cell">
+      <div class="info-cell-label">Company</div>
+      <div class="info-cell-val">Ford Motor Co. vs GM &amp; Tesla</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Period</div>
+      <div class="info-cell-val">10 years — 2013 to 2022</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Framework</div>
+      <div class="info-cell-val">Liquidity · Activity · Debt · Profitability · Market · DuPont</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">My Role</div>
+      <div class="info-cell-val">Leader &amp; Quantitative Analyst</div>
+    </div>
+  </div>
+
+  <div class="project-meta-grid reveal">
+    <div class="meta-card">
+      <h4>Key Findings</h4>
+      <ul>
+        <li>Liquidity: Stable and sufficient to cover short-term obligations</li>
+        <li>Efficiency: Strong inventory turnover, but weaker in collecting receivables and managing payables</li>
+        <li>Debt: Heavily leveraged vs peers — avg D/A ratio 0.86, leaving Ford more exposed to interest costs</li>
+        <li>Profitability: Volatile — negative margins, ROE, and EPS in 2022</li>
+      </ul>
+    </div>
+    <div class="meta-card">
+      <h4>Overall Assessment</h4>
+      <ul>
+        <li>Market position: Valued closer to GM (traditional auto) than Tesla (high-growth EV)</li>
+        <li>DuPont: Declining profitability and high leverage drag down returns</li>
+        <li>Tesla shows rising profitability and deleveraging trend; GM shows steady performance</li>
+        <li>Ford is financially stable short-term but struggles with heavy debt and weak profitability</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div class="project-detail-tag reveal" style="margin-bottom:1.5rem;">Charts &amp; Analysis</div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Share Price</span>
+        <span class="analysis-text">Ford Motor Co. historical share price 2013–2023</span>
+        <span class="analysis-finding">→ All-time high $25.19 (Jan 2022); COVID low $4.01 (Mar 2020); avg $12.37 over the period</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image164.png" alt="Ford share price">
+          <div class="ss-caption">Ford Motor Co. share price 2013–2023</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Liquidity</span>
+        <span class="analysis-text">Current ratio and quick ratio — Ford vs GM vs Tesla (2013–2022)</span>
+        <span class="analysis-finding">→ Ford maintains adequate liquidity; Tesla shows strongest improvement in recent years</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr 1fr;">
+        <div class="ss-card">
+          <img src="image134.png" alt="Current Ratio">
+          <div class="ss-caption">Current Ratio — Ford vs GM vs Tesla (2013–2022)</div>
+        </div>
+        <div class="ss-card">
+          <img src="image132.png" alt="Quick Ratio">
+          <div class="ss-caption">Quick Ratio — Ford vs GM vs Tesla (2013–2022)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Activity</span>
+        <span class="analysis-text">Inventory turnover, average collection period, total asset turnover, average payment period</span>
+        <span class="analysis-finding">→ Ford leads in inventory turnover (~16×); longer collection period than GM signals weaker receivables management</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image130.png" alt="Inventory Turnover">
+          <div class="ss-caption">Inventory Turnover — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr; margin-top:1px;">
+        <div class="ss-card wide">
+          <img src="image128.png" alt="Average Collection Period">
+          <div class="ss-caption">Average Collection Period — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr; margin-top:1px;">
+        <div class="ss-card wide">
+          <img src="image126.png" alt="Total Asset Turnover">
+          <div class="ss-caption">Total Asset Turnover — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr; margin-top:1px;">
+        <div class="ss-card wide">
+          <img src="image124.png" alt="Average Payment Period">
+          <div class="ss-caption">Average Payment Period — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Debt</span>
+        <span class="analysis-text">Debt-to-Asset ratio and Financial Leverage Multiplier — 10-year trend vs peers</span>
+        <span class="analysis-finding">→ Ford's D/A avg 0.86 — highest among peers; leverage multiplier avg 7.42 vs GM's 4.69 and Tesla's 4.65</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image156.png" alt="Debt to Asset">
+          <div class="ss-caption">Debt-to-Asset ratio — F vs GM vs TSLA</div>
+        </div>
+        <div class="ss-card">
+          <img src="image152.png" alt="Financial Leverage Multiplier">
+          <div class="ss-caption">Financial Leverage Multiplier — F vs GM vs TSLA</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Debt Coverage</span>
+        <span class="analysis-text">Times Interest Earned — ability to cover interest expenses from operating income</span>
+        <span class="analysis-finding">→ Ford's avg TIE of 11.26 lags GM's 28.69; Tesla surged to 85.52 in 2022 as profitability improved dramatically</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image148.png" alt="Times Interest Earned">
+          <div class="ss-caption">Times Interest Earned — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Profitability</span>
+        <span class="analysis-text">Gross, operating, and net profit margins — 10-year comparison</span>
+        <span class="analysis-finding">→ Ford's margins volatile and declining; Tesla crossed into sustained profitability post-2020; GM most consistent</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image138.png" alt="Gross Profit Margin">
+          <div class="ss-caption">Gross Profit Margin — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr; margin-top:1px;">
+        <div class="ss-card wide">
+          <img src="image136.png" alt="Operating Profit Margin">
+          <div class="ss-caption">Operating Profit Margin — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr; margin-top:1px;">
+        <div class="ss-card wide">
+          <img src="image146.png" alt="Net Profit Margin">
+          <div class="ss-caption">Net Profit Margin — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Returns</span>
+        <span class="analysis-text">EPS, ROA, and ROE — earnings and returns on assets and equity</span>
+        <span class="analysis-finding">→ Ford EPS turned negative in 2022; ROE volatile; Tesla ROE improved sharply from deeply negative to positive</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image140.png" alt="EPS">
+          <div class="ss-caption">EPS — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr 1fr; margin-top:1px;">
+        <div class="ss-card">
+          <img src="image142.png" alt="ROA">
+          <div class="ss-caption">ROA — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+        <div class="ss-card">
+          <img src="image144.png" alt="ROE">
+          <div class="ss-caption">ROE — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Market &amp; DuPont</span>
+        <span class="analysis-text">PE ratio, Market-to-Book ratio, and DuPont decomposition of ROE</span>
+        <span class="analysis-finding">→ Ford and GM trade at low P/E and M/B vs Tesla's premium; DuPont shows Ford's ROE dragged by low margins and high leverage</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr 1fr;">
+        <div class="ss-card">
+          <img src="image122.png" alt="PE Ratio">
+          <div class="ss-caption">PE Ratio — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+        <div class="ss-card">
+          <img src="image120.png" alt="MB Ratio">
+          <div class="ss-caption">Market-to-Book Ratio — F vs GM vs TSLA (2013–2022)</div>
+        </div>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr; margin-top:1px;">
+        <div class="ss-card wide">
+          <img src="image118.png" alt="DuPont Analysis">
+          <div class="ss-caption">DuPont Analysis — ROE decomposition, F vs GM vs TSLA (2013–2022)</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </section>
+  <div style="padding:3rem 5vw; border-top:1px solid var(--border); display:flex; gap:1rem; flex-wrap:wrap; background:var(--bg2);">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Back to Projects</button>
+  </div>
+  <footer>
+    <div>
+      <div class="footer-name">Tam Vu</div>
+      <div class="footer-sub">Finance &amp; Data Analytics · Boston, MA</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:ayavtmt2004@gmail.com">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Resume PDF</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: project-stock
+═══════════════════════════════════════════ -->
+<div id="page-project-stock" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Projects</button>
+    <span class="back-bar-title">Stock Portfolio Report</span>
+  </div>
+  <section id="project-stock" style="padding:4rem 5vw 3rem;">
+<div class="project-detail-header reveal">
+    <div class="project-detail-tag">Project · Stock Analyst &amp; Trader</div>
+    <h2 class="project-detail-title">Stock Portfolio Report —<br>Long-Term Capital Appreciation</h2>
+    <p class="project-detail-desc">Built and managed a simulated $10M portfolio targeting long-term capital appreciation through large-cap U.S. stocks and ETFs. Benchmarked against the S&amp;P 500. Strategy: 55% ETFs, 45% individual stocks, focused on technology, consumer discretionary, and energy sectors, with low-frequency trading to minimize costs.</p>
+  </div>
+
+  <div class="project-info-row reveal">
+    <div class="info-cell">
+      <div class="info-cell-label">Portfolio Size</div>
+      <div class="info-cell-val">$10,000,000 simulated</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Strategy</div>
+      <div class="info-cell-val">55% ETFs · 45% Individual Stocks</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Benchmark</div>
+      <div class="info-cell-val">S&amp;P 500 Index</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">My Role</div>
+      <div class="info-cell-val">Stock Analyst &amp; Trader</div>
+    </div>
+  </div>
+
+  <div class="project-meta-grid reveal">
+    <div class="meta-card">
+      <h4>Final Findings</h4>
+      <ul>
+        <li>Portfolio return 7.47% vs S&amp;P 500 return of 7.80% over 3 months (Oct–Dec 2023) — slightly underperformed the benchmark</li>
+        <li>Tech (+10.65%) and consumer discretionary (+8.2%) outperformed; Energy was a negative contributor (−0.85%)</li>
+        <li>Heavy ETF use gave stability but limited upside vs a more concentrated stock approach</li>
+        <li>Portfolio beta 1.04 — close to market risk, slightly higher volatility than S&amp;P 500</li>
+      </ul>
+    </div>
+    <div class="meta-card">
+      <h4>Attribution &amp; Lessons Learned</h4>
+      <ul>
+        <li>Allocation helped in Retail Trade and Consumer Non-Durables sectors</li>
+        <li>Stock selection weak in Energy, Consumer Durables, and Financial Services</li>
+        <li>Jensen Alpha slightly negative (−0.00008867), confirming modest underperformance</li>
+        <li>Clearer initial performance metric (Sharpe ratio) would have guided better allocation; stronger stock picking and entry price discipline needed</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div class="project-detail-tag reveal" style="margin-bottom:1.5rem;">Portfolio Analysis</div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Performance</span>
+        <span class="analysis-text">Portfolio vs S&amp;P 500 return — Oct 4 to Dec 1, 2023</span>
+        <span class="analysis-finding">→ Portfolio: 7.47% | S&amp;P 500: 7.80% over 3 months (Oct 4 – Dec 1, 2023) — tracked closely, slight lag in final weeks</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image114.png" alt="Portfolio vs SP500 performance">
+          <div class="ss-caption">Portfolio vs S&amp;P 500 market value — Oct to Dec 2023</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Holdings</span>
+        <span class="analysis-text">Stock and ETF selection with individual allocations</span>
+        <span class="analysis-finding">→ ETF allocation 55.17% (ARKX, AIQ, XLK, QQQ, XLE); Stock allocation 44.83% (GE, AMZN, AAPL, TSLA, BRK-A, PEP, PG, LMT, KHC, META)</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image112.png" alt="Stock selection table">
+          <div class="ss-caption">Full holdings — ETFs and individual stocks with allocation %</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Allocation</span>
+        <span class="analysis-text">Portfolio by asset class and sector breakdown</span>
+        <span class="analysis-finding">→ 90.61% long equities, 9.39% cash; Electronic Technology dominates at 34% of sector allocation</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image110.png" alt="Asset class allocation">
+          <div class="ss-caption">Asset class split — long equities 90.61% vs cash 9.39%</div>
+        </div>
+        <div class="ss-card">
+          <img src="image108.png" alt="Sector allocation pie chart">
+          <div class="ss-caption">Sector allocation — Electronic Technology 34%, Technology Services 13%, Consumer Durables 11%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Attribution</span>
+        <span class="analysis-text">Weighted sector returns vs S&amp;P 500 benchmark — portfolio vs benchmark contribution</span>
+        <span class="analysis-finding">→ Electronic Technology drove the largest weighted return (5.01%); Energy the only negative contributor (−0.08%); total portfolio 7.47% vs benchmark 7.10%</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image104.png" alt="Sector weighted returns">
+          <div class="ss-caption">Sector weighted returns — portfolio (left, 7.47%) vs S&amp;P 500 benchmark (right, 7.10%)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Allocation Effect</span>
+        <span class="analysis-text">Returns due to allocation — fund weight vs benchmark weight by sector</span>
+        <span class="analysis-finding">→ Overweight in Electronic Technology (+19.66% vs benchmark); underweight in Miscellaneous (−18.33%) and Financial Services (−4.68%)</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image102.png" alt="Returns due to allocation">
+          <div class="ss-caption">Exhibit 7 — Fund weight vs benchmark weight &amp; difference by sector</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Dividends</span>
+        <span class="analysis-text">Dividend income received across equity holdings during the period</span>
+        <span class="analysis-finding">→ LMT highest dividend income ($3,524.85); AAPL lowest ($684.00); total dividend contribution from 4 holdings: LMT, PEP, KHC, AAPL</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image106.png" alt="Dividend transactions">
+          <div class="ss-caption">Dividend transactions — LMT, PEP, KHC, AAPL with quantity, rate &amp; amount</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Risk Metrics</span>
+        <span class="analysis-text">Portfolio characteristics — Sharpe ratio, Treynor, Jensen Alpha, Beta</span>
+        <span class="analysis-finding">→ Beta 1.04 (near market); Sharpe 0.193; Jensen Alpha slightly negative — solid risk-adjusted performance but narrowly lagged the index</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image100.png" alt="Portfolio characteristics">
+          <div class="ss-caption">Exhibit 9 — Weighted avg. return 0.89%, Std Dev 0.86%, Sharpe 0.193, Beta 1.04, Jensen Alpha −0.00008867</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </section>
+  <div style="padding:3rem 5vw; border-top:1px solid var(--border); display:flex; gap:1rem; flex-wrap:wrap; background:var(--bg2);">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Back to Projects</button>
+  </div>
+  <footer>
+    <div>
+      <div class="footer-name">Tam Vu</div>
+      <div class="footer-sub">Finance &amp; Data Analytics · Boston, MA</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:ayavtmt2004@gmail.com">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Resume PDF</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: project-inflation
+═══════════════════════════════════════════ -->
+<div id="page-project-inflation" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Projects</button>
+    <span class="back-bar-title">Perceived vs Actual Inflation</span>
+  </div>
+  <section id="project-inflation" style="padding:4rem 5vw 3rem;">
+<div class="project-detail-header reveal">
+    <div class="project-detail-tag">Project</div>
+    <h2 class="project-detail-title">Perceived vs Actual Inflation<br>&amp; Household Spending</h2>
+    <p class="project-detail-desc">Examined how perceived inflation (SCE — Survey of Consumer Expectations) and actual inflation (PCE — Personal Consumption Expenditures) influence household spending behaviour in the U.S. in the short-term post-COVID period. The core question: do consumers spend based on what they believe will happen to prices, or what is actually happening?</p>
+  </div>
+
+  <div class="project-info-row reveal">
+    <div class="info-cell">
+      <div class="info-cell-label">Tools</div>
+      <div class="info-cell-val">Python — numpy, pandas, matplotlib</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Methods</div>
+      <div class="info-cell-val">Linear Regression (ML), MSE, R-squared, Correlation</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Data Sources</div>
+      <div class="info-cell-val">SCE (Perceived Inflation) · PCE (Actual Inflation) · EXP (Spending Change)</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Period</div>
+      <div class="info-cell-val">Post-COVID short-term window — U.S.</div>
+    </div>
+  </div>
+
+  <div class="project-meta-grid reveal">
+    <div class="meta-card">
+      <h4>Why This Matters</h4>
+      <ul>
+        <li>Perception can shape consumer behaviour, business decisions, and policy just as strongly as actual inflation</li>
+        <li>When consumers expect prices to rise, they change spending even if real inflation is stable — influencing demand and pricing strategies</li>
+        <li>Policymakers react to these behavioural shifts when setting interest rates</li>
+        <li>Understanding whether perception or reality drives spending is essential to forecasting economic activity</li>
+      </ul>
+    </div>
+    <div class="meta-card">
+      <h4>Conclusion</h4>
+      <ul>
+        <li>Perceived inflation (SCE) shows only weak positive correlation with spending (r = 0.1775)</li>
+        <li>Actual inflation (PCE) shows a stronger negative correlation with spending (r = −0.5812)</li>
+        <li>Post-COVID consumers still tend to spend based on what they believe will happen to prices</li>
+        <li>Key insight: <strong>perception often outweighs reality</strong> in driving economic behaviour</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div class="project-detail-tag reveal" style="margin-bottom:1.5rem;">Findings</div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Finding 1</span>
+        <span class="analysis-text">Perceived Inflation (SCE) vs Consumer Spending Change — scatter plot with trend line</span>
+        <span class="analysis-finding">→ Weak positive correlation (r = 0.1775); points widely scattered — inflation expectations don't strongly predict actual spending changes</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image026.png" alt="SCE vs Spending scatter">
+          <div class="ss-caption">Figure 1 — SCE vs Consumer Spending Change (scatter)</div>
+        </div>
+        <div class="ss-card">
+          <img src="image022.png" alt="SCE linear regression model">
+          <div class="ss-caption">Figure 1 — Linear regression model with train/test split</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Finding 2</span>
+        <span class="analysis-text">Actual PCE Inflation vs Consumer Spending Change — scatter plot with trend line</span>
+        <span class="analysis-finding">→ Stronger negative correlation (r = −0.5812); as actual prices rise, consumers reduce spending — a clearer, more consistent relationship</span>
+      </div>
+      <div class="screenshot-grid">
+        <div class="ss-card">
+          <img src="image024.png" alt="PCE vs Spending scatter">
+          <div class="ss-caption">Figure 2 — PCE vs Consumer Spending Change (scatter)</div>
+        </div>
+        <div class="ss-card">
+          <img src="image028.png" alt="PCE finding written analysis">
+          <div class="ss-caption">Figure 2 — Written analysis: negative correlation interpretation</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">ML Models</span>
+        <span class="analysis-text">Linear regression models — SCE vs EXP (left) and PCE vs EXP (right) with train/test split</span>
+        <span class="analysis-finding">→ PCE model fits the data better with a steeper, more reliable regression line; SCE model shows high residual spread confirming weak predictive power</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image022.png" alt="Linear regression models">
+          <div class="ss-caption">Linear regression — SCE vs Spending (left) and PCE vs Spending (right) with train/test split</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </section>
+  <div style="padding:3rem 5vw; border-top:1px solid var(--border); display:flex; gap:1rem; flex-wrap:wrap; background:var(--bg2);">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Back to Projects</button>
+  </div>
+  <footer>
+    <div>
+      <div class="footer-name">Tam Vu</div>
+      <div class="footer-sub">Finance &amp; Data Analytics · Boston, MA</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:ayavtmt2004@gmail.com">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Resume PDF</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: project-cbs
+═══════════════════════════════════════════ -->
+<div id="page-project-cbs" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Projects</button>
+    <span class="back-bar-title">CBS Case Competition: BESS Strategy</span>
+  </div>
+  <section id="project-cbs" style="padding:4rem 5vw 3rem;">
+<div class="project-detail-header reveal">
+    <div class="project-detail-tag">Case Competition</div>
+    <h2 class="project-detail-title">CBS Case Competition:<br>European Energy — Global BESS Strategy</h2>
+    <p class="project-detail-desc">Developed a three-year global market entry and investment strategy for European Energy (EE) to expand into Battery Energy Storage Systems (BESS) and evolve from a renewable energy producer into a full energy company. The team evaluated which countries EE should enter, how much to invest (~€296M CAPEX), and whether retrofit vs. standalone projects would maximize returns.</p>
+  </div>
+
+  <div class="project-info-row reveal">
+    <div class="info-cell">
+      <div class="info-cell-label">Client</div>
+      <div class="info-cell-val">European Energy (EE) — renewable energy company</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Frameworks</div>
+      <div class="info-cell-val">Market Maturity · SWOT · DCF/IRR · Risk Matrix · Trade-off Analysis</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Markets Analyzed</div>
+      <div class="info-cell-val">UK · Germany · Australia · Denmark · Lithuania · Poland · Finland</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Total CAPEX Recommended</div>
+      <div class="info-cell-val">~€295.8M over 2026–2028</div>
+    </div>
+  </div>
+
+  <div class="project-meta-grid reveal">
+    <div class="meta-card">
+      <h4>Key Insights</h4>
+      <ul>
+        <li>Retrofits outperform standalone projects in mature markets due to faster grid access and higher IRR</li>
+        <li>Emerging markets like Lithuania and Poland show exceptionally strong IRR driven by subsidies and low competition</li>
+        <li>LDES (Long-Duration Energy Storage) offers strategic advantage in UK and Germany despite policy complexity</li>
+        <li>A balanced mix of retrofits (short-term wins) and standalone projects (long-term growth) maximizes portfolio value</li>
+      </ul>
+    </div>
+    <div class="meta-card">
+      <h4>Recommendation</h4>
+      <ul>
+        <li>Prioritize retrofit projects in mature markets — UK, Australia, Germany — for high near-term IRR &amp; NPV</li>
+        <li>Capture high-growth opportunities in emerging markets — Lithuania, Poland</li>
+        <li>Invest early in LDES partnerships to secure future technological leadership</li>
+        <li>Deploy ~€296M CAPEX over 2026–2028 aligned with risk-adjusted returns, splitting €97.2M · €99.4M · €99.2M per year</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div class="project-detail-tag reveal" style="margin-bottom:1.5rem;">Analysis &amp; Deliverables</div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Financials</span>
+        <span class="analysis-text">CAPEX allocation by project type and country — NPV, IRR &amp; WACC comparison across all markets</span>
+        <span class="analysis-finding">→ 52.4% standalone / 47.6% retrofit split; Lithuania leads in IRR; Germany commands largest CAPEX at 33.81%</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image018.png" alt="CAPEX allocation and NPV IRR WACC">
+          <div class="ss-caption">CAPEX allocation by type &amp; country (left) · Country retrofit vs standalone NPV/IRR/WACC (right)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Investment Timeline</span>
+        <span class="analysis-text">3-year phased capital deployment — competitive vs emerging markets</span>
+        <span class="analysis-finding">→ 2026: secure Germany (€40M) + Lithuania (€30.8M) first; 2027–2028: expand into Denmark, Poland, Finland</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image016.png" alt="Investment timeline">
+          <div class="ss-caption">3-year phased CAPEX deployment plan — €97.2M (2026) · €99.4M (2027) · €99.2M (2028)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Competitive Markets</span>
+        <span class="analysis-text">Country-level strategy for Australia, UK, and Germany — retrofit vs standalone decision</span>
+        <span class="analysis-finding">→ All three favor Retrofit &gt; Standalone for higher IRR &amp; NPV; Germany unique in standalone advantage due to diverse electricity supply</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image014.png" alt="Competitive markets strategy">
+          <div class="ss-caption">Strategy cards — Australia, United Kingdom &amp; Germany: retrofit vs standalone rationale &amp; risks</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Emerging Markets</span>
+        <span class="analysis-text">Country-level strategy for Denmark, Lithuania, Poland, and Finland</span>
+        <span class="analysis-finding">→ Lithuania: highest IRR &amp; NPV for both project types; Poland: retrofit-focused backed by state partnerships; Finland: standalone for price arbitrage</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image012.png" alt="Emerging markets strategy">
+          <div class="ss-caption">Strategy cards — Denmark, Lithuania, Poland &amp; Finland: retrofit vs standalone rationale &amp; risks</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Risk Matrix</span>
+        <span class="analysis-text">4 key risks rated by likelihood and impact — with defined mitigations</span>
+        <span class="analysis-finding">→ Grid access competition (high likelihood, high impact) is the most critical risk; LDES subsidy constraints manageable via Power-to-X conversion</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image010.png" alt="Risk matrix">
+          <div class="ss-caption">Risk &amp; Mitigation Matrix — likelihood vs impact with defined mitigation strategies</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Trade-off Analysis</span>
+        <span class="analysis-text">Strategic trade-offs across market portfolio, revenue type, time to market, and value-chain ownership</span>
+        <span class="analysis-finding">→ Stability over aggressive growth: contracted revenue preferred; retrofit prioritized for first-mover advantage; partnerships in mature markets to retain share</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image008.png" alt="Trade-off analysis">
+          <div class="ss-caption">Trade-off Analysis — Market Portfolio · Revenue Type · Time to Market · Value-chain Ownership</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </section>
+  <div style="padding:3rem 5vw; border-top:1px solid var(--border); display:flex; gap:1rem; flex-wrap:wrap; background:var(--bg2);">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Back to Projects</button>
+  </div>
+  <footer>
+    <div>
+      <div class="footer-name">Tam Vu</div>
+      <div class="footer-sub">Finance &amp; Data Analytics · Boston, MA</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:ayavtmt2004@gmail.com">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Resume PDF</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PAGE: project-fxcny
+═══════════════════════════════════════════ -->
+<div id="page-project-fxcny" class="page">
+  <div class="back-bar">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Projects</button>
+    <span class="back-bar-title">USD/CNY FX Rate vs China Exports</span>
+  </div>
+  <section id="project-fxcny" style="padding:4rem 5vw 3rem;">
+<div class="project-detail-header reveal">
+    <div class="project-detail-tag">Project · Macroeconomic &amp; Data Research Analyst</div>
+    <h2 class="project-detail-title">USD/CNY FX Rate vs<br>China's Exports to the US</h2>
+    <p class="project-detail-desc">Built an interactive Python dashboard using API-sourced data to explore the relationship between the USD/CNY exchange rate, the Fed Funds Rate, and China's export volumes to the United States. The dashboard supports exploratory analysis through two complementary visualizations and interactive filters across date range, FX rate, and Fed Funds rate.</p>
+  </div>
+
+  <div class="project-info-row reveal">
+    <div class="info-cell">
+      <div class="info-cell-label">Tools</div>
+      <div class="info-cell-val">Python — Pandas, Plotly, Dash</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Data Sources</div>
+      <div class="info-cell-val">FRED API — USD/CNY, Fed Funds Rate, China–US Export volumes</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Dashboard Features</div>
+      <div class="info-cell-val">Interactive filters · Date range slider · FX &amp; Fed Funds range sliders</div>
+    </div>
+    <div class="info-cell">
+      <div class="info-cell-label">Period</div>
+      <div class="info-cell-val">2000–2005 (pre-RMB reform era)</div>
+    </div>
+  </div>
+
+  <div class="project-meta-grid reveal">
+    <div class="meta-card">
+      <h4>Key Finding — Inverse Relationship</h4>
+      <ul>
+        <li>USD/CNY FX rate and China's export volumes to the US show an inverse relationship — counterintuitive to standard trade theory</li>
+        <li>Conventional logic: a weaker CNY (higher USD/CNY) should boost exports by making Chinese goods cheaper</li>
+        <li>Instead, export volumes trend upward even as the FX rate remains pegged and relatively stable</li>
+        <li>This suggests China's exports are <strong>not primarily price-driven</strong> in this period</li>
+      </ul>
+    </div>
+    <div class="meta-card">
+      <h4>Why This Happened — Structural Shift</h4>
+      <ul>
+        <li>China had shifted away from commodity and low-cost manufacturing toward <strong>price-inelastic products</strong> — electronics, medical devices, and technology goods</li>
+        <li>These categories are demand-driven rather than price-driven: US buyers import them regardless of exchange rate movements</li>
+        <li>Total export dollar volume grew without relying on a competitive exchange rate advantage</li>
+        <li>Insight: China's export competitiveness was increasingly structural, not monetary</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div class="project-detail-tag reveal" style="margin-bottom:1.5rem;">Dashboard Screenshots</div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Data Table</span>
+        <span class="analysis-text">Interactive filtered table — USD/CNY, Fed Funds Rate, and China–US Export volumes by month</span>
+        <span class="analysis-finding">→ Filterable by date range, FX rate range, and Fed Funds rate range; shows all three variables side by side for any selected period</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image004.png" alt="Interactive data table">
+          <div class="ss-caption">Dashboard Table view — USD/CNY, Fed Funds Rate &amp; China–US Exports with interactive filters</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">FX vs Fed Funds</span>
+        <span class="analysis-text">USD/CNY exchange rate vs Fed Funds Rate over time — dual line chart</span>
+        <span class="analysis-finding">→ CNY pegged flat at ~8.28 throughout (PBOC managed peg); Fed Funds Rate fell sharply from 4.2% to ~1% (2001–2003 rate cut cycle) — FX rate unresponsive to US monetary policy</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image002.png" alt="FX Rate vs Fed Funds Rate">
+          <div class="ss-caption">FX Rate (blue, flat at ~8.28) vs Fed Funds Rate (red, falling 2001–2003)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-block reveal">
+      <div class="analysis-q">
+        <span class="analysis-num">Exports vs FX Rate</span>
+        <span class="analysis-text">China's export volumes to US (bar) vs USD/CNY FX rate (line) — dual-axis chart</span>
+        <span class="analysis-finding">→ Export volumes grew steadily from ~$7K to ~$18K (2000–2004) despite a flat/declining FX rate — confirming the inverse relationship driven by China's shift to price-inelastic tech and medical exports</span>
+      </div>
+      <div class="screenshot-grid" style="grid-template-columns:1fr;">
+        <div class="ss-card wide">
+          <img src="image006.png" alt="Exports with FX Rate">
+          <div class="ss-caption">China–US Export Volume (bars) vs USD/CNY FX Rate (red line) — inverse trend visible 2000–2004</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </section>
+  <div style="padding:3rem 5vw; border-top:1px solid var(--border); display:flex; gap:1rem; flex-wrap:wrap; background:var(--bg2);">
+    <button class="back-btn" onclick="showPage('projects-list'); window.scrollTo(0,0);">← Back to Projects</button>
+  </div>
+  <footer>
+    <div>
+      <div class="footer-name">Tam Vu</div>
+      <div class="footer-sub">Finance &amp; Data Analytics · Boston, MA</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:ayavtmt2004@gmail.com">Email</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Resume PDF</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+const ALL_PAGES = ['main','projects-list','project-sales','project-rfm','project-christmas',
+  'project-restaurant','project-ford','project-stock','project-inflation','project-cbs','project-fxcny'];
+
+function showPage(name) {
+  ALL_PAGES.forEach(p => {
+    const el = document.getElementById('page-' + p);
+    if (el) el.classList.remove('active');
+  });
+  const target = document.getElementById('page-' + name);
+  if (target) { target.classList.add('active'); window.scrollTo(0,0); }
+  initReveal();
+}
+
+function showProject(pid) {
+  showPage(pid);
+}
+
+function scrollToSection(id) {
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+function initReveal() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.page.active .reveal:not(.visible)').forEach(el => obs.observe(el));
+}
+
+// nav active highlight
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  const sections = document.querySelectorAll('.page.active section[id]');
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+  navLinks.forEach(a => { a.style.color = ''; });
+});
+
+// prevent coming-soon clicks
+document.querySelectorAll('.project-card.coming-soon').forEach(c => {
+  c.addEventListener('click', e => e.preventDefault());
+});
+
+// init
+initReveal();
+</script>
+</body>
+</html>
